@@ -1,6 +1,6 @@
 locals {
   environment                 = "Prod"
-  ec2_key_name                = ""
+  ec2_key_name                = "Wordpres-website"
   ec2_name                    = "ci/cd-test"
   ec2_ingress_rules           = [
     {
@@ -17,7 +17,7 @@ locals {
         protocol    = "-1"
         to_port     = 0
         }]
-  ec2_ami_id                  = ""
+  ec2_ami_id                  = "ami-0c2af51e265bd5e0e"
   ec2_instance_type           = "t3a.micro"
   ec2_iam_role_name           = "test"
   ec2_iam_role_policies       = ""
@@ -26,7 +26,9 @@ locals {
   ec2_kms_key_id              = ""
   ec2_root_encrypted          = "true"
   #ec2_ebs_block_devices       = 
-  ec2_tags                    = 
+  ec2_tags                    = {
+    "Implementedby" = "Workmates"
+  }
   ec2_disable_api_termination = "false"
   ec2_iam_instance_profile    = ""
 
