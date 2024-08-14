@@ -30,7 +30,7 @@ locals {
     "Implementedby" = "Workmates"
   }
   ec2_disable_api_termination = "false"
-  ec2_iam_instance_profile    = ""
+  ec2_iam_instance_profile    = "CWMManagedInstanceRole"
 
 }
 
@@ -40,24 +40,24 @@ data "aws_key_pair" "app" {
 }
 
 module "securtiy-group" {
-  source      = "../../modules/sg"
+  source      = "./modules/sg"
   name        = "${title(local.ec2_name)}-SG"
   description = "${title(local.ec2_name)} Security group"
-  vpc_id      = ""
+  vpc_id      = "vpc-08ffa5185952fadc5"
 
   ingress_rules = local.ec2_ingress_rules
   egress_rules  = local.ec2_egress_rules
 }
 module "app-1a" {
-  source     = "../../modules/ec2"
+  source     = "./modules/ec2"
   depends_on = [module.securtiy-group]
   create     = true
   name       = "${local.ec2_name}-1a"
 
   ami                         = local.ec2_ami_id
   instance_type               = local.ec2_instance_type
-  availability_zone           = "ap-southeast-1a"
-  subnet_id                   = "subnet-0888807e0aa49ef98"
+  availability_zone           = "ap-south-1a"
+  subnet_id                   = "subnet-0d364fae1a11c7b30"
   vpc_security_group_ids      = [module.securtiy-group.security_group_id]
   key_name                    = data.aws_key_pair.app.key_name
   associate_public_ip_address = false
@@ -65,7 +65,7 @@ module "app-1a" {
   disable_api_termination     = local.ec2_disable_api_termination
   ebs_optimized               = true
   source_dest_check           = false
-  private_ip                  = "10.207.4.11"
+  #private_ip                  = ""
 
   create_iam_instance_profile = false
   iam_instance_profile        = local.ec2_iam_instance_profile
